@@ -9,5 +9,8 @@
             "email": "vaskou@hotmail.com"
         }
     ],
-    "require": {}
+    "require": {},
+    "autoload": {
+        "files": ["class-wordpress-custom-settings.php"]
+    }
 }
