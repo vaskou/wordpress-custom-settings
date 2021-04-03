@@ -1,6 +1,8 @@
 {
     "name": "vaskou/wordpress-custom-settings",
     "type": "library",
+    "version": "v0.0.1",
+    "license": "GPL-2.0-or-later",
     "authors": [
         {
             "name": "Vasilis Koutsopoulos",
