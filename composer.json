@@ -1,0 +1,11 @@
+{
+    "name": "vaskou/wordpress-custom-settings",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Vasilis Koutsopoulos",
+            "email": "vaskou@hotmail.com"
+        }
+    ],
+    "require": {}
+}
