@@ -2,22 +2,13 @@
 
 class Wordpress_Custom_Settings {
 
-	const PAGE_TITLE = 'Bahgaty Registrations Settings';
-	const MENU_SLUG = 'wordpress_custom_settings';
-
-
-	const SETTING_NAME = 'bahgaty_registrations_settings';
-	const SETTING_SECTION_TITLE = self::PAGE_TITLE;
-	const SETTING_SECTION_DESCRIPTION = '';
-	const SETTING_PAGE = self::MENU_SLUG;
-
 	private $_submenu_parent_slug = 'options-general.php';
-	private $setting_fields = array();
 
 	protected $page_title;
 	protected $menu_title;
 	protected $menu_slug;
 	protected $sections;
+	protected $setting_fields = array();
 
 	private static $instance = null;
 
@@ -38,14 +29,15 @@ class Wordpress_Custom_Settings {
 			'section1' => array(
 				'title'       => 'Section1-title',
 				'description' => 'Section1-description',
-			)
+			),
 		);
 
 		$this->setting_fields = array(
-			'bahgaty_registrations_health_educator_role' => array(
-				'title' => 'Health Educator Role',
-				'args'  => array(
-					'type' => 'user_roles'
+			'setting1' => array(
+				'title'   => 'Setting1-title',
+				'section' => 'section1',
+				'args'    => array(
+					'type' => 'text'
 				)
 			),
 		);
@@ -133,7 +125,7 @@ class Wordpress_Custom_Settings {
 		$page = $this->get_menu_slug();
 
 		if ( isset( $_GET['settings-updated'] ) ) {
-			add_settings_error( $page, $page . '_message', __( 'Settings Saved', 'bahgaty-registrations' ), 'success' );
+			add_settings_error( $page, $page . '_message', __( 'Settings Saved' ), 'success' );
 		}
 
 		settings_errors( $page );
@@ -192,8 +184,8 @@ class Wordpress_Custom_Settings {
 				$field_name,
 				$field['title'],
 				array( $this, 'settings_field_callback' ),
-				self::SETTING_PAGE,
-				self::SETTING_NAME . '_section',
+				$this->get_menu_slug(),
+				$field['section'],
 				$args
 			);
 		}
@@ -296,18 +288,11 @@ class Wordpress_Custom_Settings {
 		return $settings;
 	}
 
-	public function get_pages_ids() {
-		$settings = $this->get_all_settings();
-		unset( $settings['bahgaty_registrations_health_educator_role'] );
-
-		return $settings;
-	}
-
 	private function _user_roles_field( $field_name, $value ) {
 		ob_start();
 		?>
         <select name="<?php echo esc_attr( $field_name ); ?>">
-            <option value="-1"><?php esc_html_e( 'None', 'bahgaty-registrations' ); ?></option>
+            <option value="-1"><?php esc_html_e( 'None' ); ?></option>
 			<?php wp_dropdown_roles( $value ); ?>
         </select>
 		<?php
