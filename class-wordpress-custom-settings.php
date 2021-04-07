@@ -2,27 +2,28 @@
 
 if ( ! class_exists( 'Wordpress_Custom_Settings', false ) ) {
 
-	class Wordpress_Custom_Settings {
+	abstract class Wordpress_Custom_Settings {
 
-		private $_submenu_parent_slug = 'options-general.php';
-
+		protected $submenu_parent_slug;
 		protected $page_title;
 		protected $menu_title;
 		protected $menu_slug;
 		protected $sections;
 		protected $setting_fields = array();
 
-		private static $instance = null;
+//		private static $instance = null;
+//
+//		public static function instance() {
+//			if ( self::$instance == null ) {
+//				self::$instance = new self();
+//			}
+//
+//			return self::$instance;
+//		}
 
-		public static function instance() {
-			if ( self::$instance == null ) {
-				self::$instance = new self();
-			}
+		protected function __construct() {
+			$this->submenu_parent_slug = 'options-general.php';
 
-			return self::$instance;
-		}
-
-		private function __construct() {
 			$this->page_title = 'Wordpress Custom Settings';
 			$this->menu_title = 'Wordpress Custom Settings';
 			$this->menu_slug  = 'wordpress_custom_settings';
@@ -49,6 +50,20 @@ if ( ! class_exists( 'Wordpress_Custom_Settings', false ) ) {
 			add_action( 'admin_init', array( $this, 'add_setting_sections' ) );
 			add_action( 'admin_init', array( $this, 'register_setting' ) );
 			add_action( 'admin_init', array( $this, 'register_setting_field' ) );
+		}
+
+		/**
+		 * @return string
+		 */
+		public function get_submenu_parent_slug(): string {
+			return $this->submenu_parent_slug;
+		}
+
+		/**
+		 * @param string $submenu_parent_slug
+		 */
+		public function set_submenu_parent_slug( string $submenu_parent_slug ): void {
+			$this->submenu_parent_slug = $submenu_parent_slug;
 		}
 
 		/**
@@ -124,7 +139,7 @@ if ( ! class_exists( 'Wordpress_Custom_Settings', false ) ) {
 		public function settings_page() {
 //		add_menu_page(
 			add_submenu_page(
-				$this->_submenu_parent_slug,
+				$this->submenu_parent_slug,
 				$this->get_page_title(),
 				$this->get_menu_title(),
 				'manage_options',
