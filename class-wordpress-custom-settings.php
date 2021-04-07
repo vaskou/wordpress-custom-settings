@@ -107,6 +107,20 @@ if ( ! class_exists( 'Wordpress_Custom_Settings', false ) ) {
 			$this->sections = $sections;
 		}
 
+		/**
+		 * @return array|array[]
+		 */
+		public function get_setting_fields(): array {
+			return $this->setting_fields;
+		}
+
+		/**
+		 * @param array|array[] $setting_fields
+		 */
+		public function set_setting_fields( array $setting_fields ): void {
+			$this->setting_fields = $setting_fields;
+		}
+
 		public function settings_page() {
 //		add_menu_page(
 			add_submenu_page(
