@@ -11,40 +11,7 @@ if ( ! class_exists( 'Wordpress_Custom_Settings', false ) ) {
 		protected $sections;
 		protected $setting_fields = array();
 
-//		private static $instance = null;
-//
-//		public static function instance() {
-//			if ( self::$instance == null ) {
-//				self::$instance = new self();
-//			}
-//
-//			return self::$instance;
-//		}
-
 		protected function __construct() {
-			$this->submenu_parent_slug = 'options-general.php';
-
-			$this->page_title = 'Wordpress Custom Settings';
-			$this->menu_title = 'Wordpress Custom Settings';
-			$this->menu_slug  = 'wordpress_custom_settings';
-
-			$this->sections = array(
-				'section1' => array(
-					'title'       => 'Section1-title',
-					'description' => 'Section1-description',
-				),
-			);
-
-			$this->setting_fields = array(
-				'setting1' => array(
-					'title'   => 'Setting1-title',
-					'section' => 'section1',
-					'args'    => array(
-						'type' => 'text'
-					)
-				),
-			);
-
 			add_action( 'admin_menu', array( $this, 'settings_page' ) );
 			add_filter( 'allowed_options', array( $this, 'allowed_options' ) );
 			add_action( 'admin_init', array( $this, 'add_setting_sections' ) );
@@ -211,12 +178,15 @@ if ( ! class_exists( 'Wordpress_Custom_Settings', false ) ) {
 
 				$args['field_name'] = $field_name;
 
+				$field_title   = ! empty( $field['title'] ) ? $field['title'] : '';
+				$field_section = ! empty( $field['section'] ) ? $field['section'] : '';
+
 				add_settings_field(
 					$field_name,
-					$field['title'],
+					$field_title,
 					array( $this, 'settings_field_callback' ),
 					$this->get_menu_slug(),
-					$field['section'],
+					$field_section,
 					$args
 				);
 			}
