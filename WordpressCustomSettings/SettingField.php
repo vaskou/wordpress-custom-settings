@@ -24,7 +24,9 @@ class SettingField {
 		$this->title   = $title;
 		$this->type    = $type;
 		$this->section = $section;
-		$this->args    = $args;
+
+		$args       = wp_parse_args( array( 'type' => $type ), $args );
+		$this->args = $args;
 	}
 
 	/**

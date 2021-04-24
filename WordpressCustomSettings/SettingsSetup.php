@@ -8,12 +8,16 @@ abstract class SettingsSetup {
 	protected $page_title;
 	protected $menu_title;
 	protected $menu_slug;
-	protected $sections;
+
+	/**
+	 * @var SettingSection[]
+	 */
+	private $sections = array();
 
 	/**
 	 * @var SettingField[]
 	 */
-	protected $setting_fields;
+	private $setting_fields = array();
 
 	protected function __construct() {
 		add_action( 'admin_menu', array( $this, 'settings_page' ) );
@@ -80,17 +84,17 @@ abstract class SettingsSetup {
 	}
 
 	/**
-	 * @return string[][]
+	 * @return SettingSection[]
 	 */
 	public function get_sections(): array {
 		return $this->sections;
 	}
 
 	/**
-	 * @param string[][] $sections
+	 * @param SettingSection $section
 	 */
-	public function set_sections( array $sections ): void {
-		$this->sections = $sections;
+	public function add_section( SettingSection $section ): void {
+		$this->sections[ $section->get_name() ] = $section;
 	}
 
 	/**
@@ -101,10 +105,10 @@ abstract class SettingsSetup {
 	}
 
 	/**
-	 * @param SettingField[] $setting_fields
+	 * @param SettingField $setting_field
 	 */
-	public function set_setting_fields( array $setting_fields ): void {
-		$this->setting_fields = $setting_fields;
+	public function add_setting_field( $setting_field ): void {
+		$this->setting_fields[ $setting_field->get_name() ] = $setting_field;
 	}
 
 	public function settings_page() {
@@ -156,10 +160,10 @@ abstract class SettingsSetup {
 
 	public function add_setting_sections() {
 
-		foreach ( $this->sections as $section_name => $section ) {
+		foreach ( $this->sections as $section ) {
 			add_settings_section(
-				$section_name,
-				$section['title'],
+				$section->get_name(),
+				$section->get_title(),
 				array( $this, 'settings_section_callback' ),
 				$this->get_menu_slug()
 			);
@@ -169,8 +173,8 @@ abstract class SettingsSetup {
 	public function register_setting() {
 		$settings = ! is_array( $this->setting_fields ) ? array( $this->setting_fields ) : $this->setting_fields;
 
-		foreach ( $settings as $setting_name => $setting ) {
-			register_setting( $this->get_menu_slug(), $setting_name );
+		foreach ( $settings as $setting ) {
+			register_setting( $this->get_menu_slug(), $setting->get_name() );
 		}
 	}
 
@@ -199,9 +203,9 @@ abstract class SettingsSetup {
 	}
 
 	public function settings_section_callback( $args ) {
-		$that         = $args['callback'][0];
-		$section_name = $args['id'];
-		$description  = ! empty( $that->sections[ $section_name ]['description'] ) ? $that->sections[ $section_name ]['description'] : '';
+		$section_name = (string) $args['id'];
+		$description  = ! empty( $this->sections[ $section_name ]->get_description() ) ? $this->sections[ $section_name ]->get_description() : '';
+
 		if ( ! empty( $description ) ):
 			?>
             <p>
@@ -272,7 +276,7 @@ abstract class SettingsSetup {
 		if ( array_key_exists( $setting_name, $this->setting_fields ) ) {
 			$setting = get_option( $setting_name, $default );
 
-			if ( ! empty( $this->setting_fields[ $setting_name ]['args']['type'] ) && 'editor' == $this->setting_fields[ $setting_name ]['args']['type'] ) {
+			if ( ! empty( $this->setting_fields[ $setting_name ]->get_type() ) && 'editor' == $this->setting_fields[ $setting_name ]->get_type() ) {
 				global $wp_embed;
 				$content = $wp_embed->autoembed( $setting );
 				$content = $wp_embed->run_shortcode( $content );
