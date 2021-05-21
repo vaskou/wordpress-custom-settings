@@ -224,6 +224,10 @@ abstract class SettingsSetup {
 
 		$type = ! empty( $args['type'] ) ? $args['type'] : 'text';
 
+		$classes = ! empty( $args['classes'] ) ? $this->_get_classes( $args['classes'] ) : '';
+
+		$options = ! empty( $args['options'] ) ? $args['options'] : array();
+
 		switch ( $type ) {
 
 			case 'text':
@@ -240,6 +244,7 @@ abstract class SettingsSetup {
                 <input type="<?php echo $type; ?>"
                        name="<?php echo $field_name; ?>"
                        value="<?php echo isset( $setting ) ? esc_attr( $setting ) : ''; ?>"
+                       class="<?php echo esc_attr( $classes ); ?>"
                        style="<?php echo $style; ?>">
 				<?php
 				break;
@@ -252,13 +257,23 @@ abstract class SettingsSetup {
 						'show_option_none'  => __( '&mdash; Select &mdash;' ),
 						'option_none_value' => '0',
 						'selected'          => $setting,
+						'class'             => $classes,
 					)
 				);
 				break;
 			case 'checkbox':
 				?>
-                <input type="<?php echo $type; ?>" name="<?php echo $field_name; ?>" value="Y" <?php echo 'Y' == $setting ? 'checked' : ''; ?>>
+                <input type="<?php echo $type; ?>"
+                       class="<?php echo esc_attr( $classes ); ?>"
+                       name="<?php echo $field_name; ?>"
+                       value="Y" <?php echo 'Y' == $setting ? 'checked' : ''; ?>>
 				<?php
+				break;
+			case 'select':
+				echo $this->_get_select( $field_name, $setting, $options, $classes );
+				break;
+			case 'multiselect':
+				echo $this->_get_select( $field_name, $setting, $options, $classes, true );
 				break;
 			case 'editor':
 				wp_editor( $setting, $field_name, array(
@@ -299,14 +314,56 @@ abstract class SettingsSetup {
 		return $settings;
 	}
 
-	private function _user_roles_field( $field_name, $value ) {
+	/**
+	 * @param string $field_name
+	 * @param string $value
+	 * @param string $classes
+	 *
+	 * @return false|string
+	 */
+	private function _user_roles_field( $field_name, $value, $classes = '' ) {
 		ob_start();
 		?>
-        <select name="<?php echo esc_attr( $field_name ); ?>">
+        <select name="<?php echo esc_attr( $field_name ); ?>" class="<?php echo esc_attr( $classes ); ?>">
             <option value="-1"><?php esc_html_e( 'None' ); ?></option>
 			<?php wp_dropdown_roles( $value ); ?>
         </select>
 		<?php
 		return ob_get_clean();
+	}
+
+	/**
+	 * @param string $field_name
+	 * @param string $value
+	 * @param array $options
+	 * @param string $classes
+	 * @param bool $multiselect
+	 *
+	 * @return false|string
+	 */
+	private function _get_select( $field_name, $value, $options = array(), $classes = '', $multiple = false ) {
+		if ( $multiple ) {
+			$field_name  .= '[]';
+			$multiple = 'multiple';
+		}
+
+		ob_start();
+		?>
+        <select name="<?php echo $field_name; ?>" class="<?php echo esc_attr( $classes ); ?>" <?php echo esc_attr( $multiple ); ?>>
+			<?php foreach ( $options as $key => $option ): ?>
+                <option value="<?php echo esc_attr( $key ); ?>" <?php selected( $value, $key ) ?>><?php echo $option; ?></option>
+			<?php endforeach; ?>
+        </select>
+		<?php
+		return ob_get_clean();
+	}
+
+	private function _get_classes( $classes ) {
+
+		if ( empty( $classes ) ) {
+			return '';
+		}
+
+		return is_array( $classes ) ? implode( ' ', $classes ) : $classes;
 	}
 }
