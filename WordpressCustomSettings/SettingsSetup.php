@@ -343,15 +343,23 @@ abstract class SettingsSetup {
 	 */
 	private function _get_select( $field_name, $value, $options = array(), $classes = '', $multiple = false ) {
 		if ( $multiple ) {
-			$field_name  .= '[]';
-			$multiple = 'multiple';
+			$field_name .= '[]';
+			$multiple   = 'multiple';
 		}
 
 		ob_start();
 		?>
         <select name="<?php echo $field_name; ?>" class="<?php echo esc_attr( $classes ); ?>" <?php echo esc_attr( $multiple ); ?>>
-			<?php foreach ( $options as $key => $option ): ?>
-                <option value="<?php echo esc_attr( $key ); ?>" <?php selected( $value, $key ) ?>><?php echo $option; ?></option>
+			<?php foreach ( $options as $key => $option ):
+
+				if ( is_array( $value ) ) {
+					$selected = selected( in_array( $key, $value ), true, false );
+				} else {
+					$selected = selected( $value, $key, false );
+				}
+				?>
+
+                <option value="<?php echo esc_attr( $key ); ?>" <?php echo $selected; ?>><?php echo $option; ?></option>
 			<?php endforeach; ?>
         </select>
 		<?php
