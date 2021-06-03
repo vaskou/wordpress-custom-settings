@@ -314,6 +314,16 @@ abstract class SettingsSetup {
 		return $settings;
 	}
 
+	public function get_settings_page_url() {
+
+		return add_query_arg(
+			array(
+				'page' => $this->get_menu_slug()
+			),
+			admin_url( $this->get_submenu_parent_slug() )
+		);
+	}
+
 	/**
 	 * @param string $field_name
 	 * @param string $value
