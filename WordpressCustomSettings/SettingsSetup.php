@@ -331,7 +331,7 @@ abstract class SettingsSetup {
 	 *
 	 * @return false|string
 	 */
-	private function _user_roles_field( $field_name, $value, $classes = '' ) {
+	protected function _user_roles_field( $field_name, $value, $classes = '' ) {
 		ob_start();
 		?>
         <select name="<?php echo esc_attr( $field_name ); ?>" class="<?php echo esc_attr( $classes ); ?>">
@@ -351,7 +351,7 @@ abstract class SettingsSetup {
 	 *
 	 * @return false|string
 	 */
-	private function _get_select( $field_name, $value, $options = array(), $classes = '', $multiple = false ) {
+	protected function _get_select( $field_name, $value, $options = array(), $classes = '', $multiple = false ) {
 		if ( $multiple ) {
 			$field_name .= '[]';
 			$multiple   = 'multiple';
@@ -376,7 +376,7 @@ abstract class SettingsSetup {
 		return ob_get_clean();
 	}
 
-	private function _get_classes( $classes ) {
+	protected function _get_classes( $classes ) {
 
 		if ( empty( $classes ) ) {
 			return '';
