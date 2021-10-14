@@ -111,6 +111,29 @@ abstract class SettingsSetup {
 		$this->setting_fields[ $setting_field->get_name() ] = $setting_field;
 	}
 
+	public function add_settings_link( $plugin_basename ) {
+		if ( ! empty( $plugin_basename ) ) {
+			add_filter( 'plugin_action_links_' . $plugin_basename, array( $this, 'plugin_action_links' ) );
+		}
+	}
+
+	public function plugin_action_links( $links ) {
+		$submenu_parent_slug = $this->get_submenu_parent_slug();
+		$menu_slug           = $this->get_menu_slug();
+
+		if ( empty( $submenu_parent_slug ) || empty( $menu_slug ) ) {
+			return $links;
+		}
+
+		$url = $submenu_parent_slug . '?page=' . $menu_slug;
+
+		$plugin_links = array(
+			'<a href="' . admin_url( $url ) . '">' . esc_html__( 'Settings', 'wordpress-custom-settings' ) . '</a>',
+		);
+
+		return array_merge( $plugin_links, $links );
+	}
+
 	public function settings_page() {
 //		add_menu_page(
 		add_submenu_page(
