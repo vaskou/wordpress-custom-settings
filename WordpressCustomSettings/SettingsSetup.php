@@ -107,17 +107,25 @@ abstract class SettingsSetup {
 	/**
 	 * @param SettingField $setting_field
 	 */
-	public function add_setting_field( $setting_field ): void {
+	public function add_setting_field( SettingField $setting_field ): void {
 		$this->setting_fields[ $setting_field->get_name() ] = $setting_field;
 	}
 
-	public function add_settings_link( $plugin_basename ) {
+	/**
+	 * @param string $plugin_basename
+	 */
+	public function add_settings_link( string $plugin_basename ) {
 		if ( ! empty( $plugin_basename ) ) {
 			add_filter( 'plugin_action_links_' . $plugin_basename, array( $this, 'plugin_action_links' ) );
 		}
 	}
 
-	public function plugin_action_links( $links ) {
+	/**
+	 * @param array $links
+	 *
+	 * @return array|string[]
+	 */
+	public function plugin_action_links( array $links ): array {
 		$submenu_parent_slug = $this->get_submenu_parent_slug();
 		$menu_slug           = $this->get_menu_slug();
 
@@ -151,10 +159,12 @@ abstract class SettingsSetup {
 			return;
 		}
 
+		$submenu_parent_slug = $this->get_submenu_parent_slug();
+
 		$page = $this->get_menu_slug();
 
-		if ( isset( $_GET['settings-updated'] ) ) {
-			add_settings_error( $page, $page . '_message', __( 'Settings Saved' ), 'success' );
+		if ( isset( $_GET['settings-updated'] ) && 'options-general.php' != $submenu_parent_slug ) {
+			add_settings_error( $page, $page . '_message', __( 'Settings Saved', 'wordpress-custom-settings' ), 'success' );
 		}
 
 		settings_errors( $page );
@@ -277,7 +287,7 @@ abstract class SettingsSetup {
 					array(
 						'name'              => $field_name,
 						'echo'              => 0,
-						'show_option_none'  => __( '&mdash; Select &mdash;' ),
+						'show_option_none'  => __( '&mdash; Select &mdash;', 'wordpress-custom-settings' ),
 						'option_none_value' => '0',
 						'selected'          => $setting,
 						'class'             => $classes,
