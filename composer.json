@@ -2,7 +2,7 @@
   "name": "vaskou/wordpress-custom-settings",
   "description": "Wordpress Custom Settings",
   "type": "library",
-  "version": "v1.2.1",
+  "version": "v1.3.0",
   "license": "GPL-2.0-or-later",
   "authors": [
     {
