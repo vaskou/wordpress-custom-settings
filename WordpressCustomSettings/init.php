@@ -28,23 +28,15 @@ if ( ! class_exists( 'WordpressCustomSettings_Bootstrap_1_3_0' ) ) {
 			spl_autoload_register( array( $this, 'class_loader' ) );
 		}
 
-		public function class_loader($class_name) {
-			error_log( print_r( $class_name, 1) );
-//			if ( 0 !== strpos( $class_name, 'CMB2' ) ) {
-//				return;
-//			}
-//
-//			$path = 'includes';
-//
-//			if ( 'CMB2_Type' === $class_name || 0 === strpos( $class_name, 'CMB2_Type_' ) ) {
-//				$path .= '/types';
-//			}
-//
-//			if ( 'CMB2_REST' === $class_name || 0 === strpos( $class_name, 'CMB2_REST_' ) ) {
-//				$path .= '/rest-api';
-//			}
-//
-//			include_once( cmb2_dir( "$path/{$class_name}.php" ) );
+		public function class_loader( $class_name ) {
+
+			if ( 0 !== strpos( $class_name, 'WordpressCustomSettings\\' ) ) {
+				return;
+			}
+
+			$filename = substr( $class_name, 24 );
+
+			include_once( "{$filename}.php" );
 		}
 	}
 
