@@ -114,11 +114,11 @@ abstract class SettingsSetup {
 	/**
 	 * @param string $plugin_basename
 	 */
-	public function add_settings_link( string $plugin_basename ) {
-		if ( ! empty( $plugin_basename ) ) {
-			add_filter( 'plugin_action_links_' . $plugin_basename, array( $this, 'plugin_action_links' ) );
-		}
-	}
+//	public function add_settings_link( string $plugin_basename ) {
+//		if ( ! empty( $plugin_basename ) ) {
+//			add_filter( 'plugin_action_links_' . $plugin_basename, array( $this, 'plugin_action_links' ) );
+//		}
+//	}
 
 	/**
 	 * @param array $links
