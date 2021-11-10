@@ -17,15 +17,20 @@ if ( ! class_exists( 'WordpressCustomSettings_Bootstrap_1_3_0' ) ) {
 
 		private function __construct() {
 
-			if ( ! defined( 'WPCS_VERSION' ) ) {
-				define( 'WPCS_VERSION', self::VERSION );
-			} else {
-				if ( version_compare( WPCS_VERSION, self::VERSION, '>' ) ) {
-					return;
-				}
+			if ( ! class_exists( 'WordpressCustomSettings\\VersionHandler' ) ) {
+				include 'VersionHandler.php';
 			}
 
-			spl_autoload_register( array( $this, 'class_loader' ) );
+			$version = WordpressCustomSettings\VersionHandler::instance();
+
+			if ( empty( $version->getVersion() ) ) {
+				$version->setVersion( self::VERSION );
+			}
+
+			if ( version_compare( $version->getVersion(), self::VERSION, '<=' ) ) {
+				$version->setVersion( self::VERSION );
+				spl_autoload_register( array( $this, 'class_loader' ), true, true );
+			}
 		}
 
 		public function class_loader( $class_name ) {
