@@ -24,21 +24,21 @@ class SettingSection {
 	/**
 	 * @return string
 	 */
-	public function get_name(): string {
+	public function get_name() {
 		return $this->name;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function get_title(): string {
+	public function get_title() {
 		return $this->title;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function get_description(): string {
+	public function get_description() {
 		return $this->description;
 	}
 

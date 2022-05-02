@@ -30,91 +30,91 @@ abstract class SettingsSetup {
 	/**
 	 * @return string
 	 */
-	public function get_submenu_parent_slug(): string {
+	public function get_submenu_parent_slug() {
 		return $this->submenu_parent_slug;
 	}
 
 	/**
 	 * @param string $submenu_parent_slug
 	 */
-	public function set_submenu_parent_slug( string $submenu_parent_slug ): void {
+	public function set_submenu_parent_slug( $submenu_parent_slug ) {
 		$this->submenu_parent_slug = $submenu_parent_slug;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function get_page_title(): string {
+	public function get_page_title() {
 		return $this->page_title;
 	}
 
 	/**
 	 * @param string $page_title
 	 */
-	public function set_page_title( string $page_title ): void {
+	public function set_page_title( $page_title ) {
 		$this->page_title = $page_title;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function get_menu_title(): string {
+	public function get_menu_title() {
 		return $this->menu_title;
 	}
 
 	/**
 	 * @param mixed $menu_title
 	 */
-	public function set_menu_title( $menu_title ): void {
+	public function set_menu_title( $menu_title ) {
 		$this->menu_title = $menu_title;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function get_menu_slug(): string {
+	public function get_menu_slug() {
 		return $this->menu_slug;
 	}
 
 	/**
 	 * @param string $menu_slug
 	 */
-	public function set_menu_slug( string $menu_slug ): void {
+	public function set_menu_slug( $menu_slug ) {
 		$this->menu_slug = $menu_slug;
 	}
 
 	/**
 	 * @return SettingSection[]
 	 */
-	public function get_sections(): array {
+	public function get_sections() {
 		return $this->sections;
 	}
 
 	/**
 	 * @param SettingSection $section
 	 */
-	public function add_section( SettingSection $section ): void {
+	public function add_section( SettingSection $section ) {
 		$this->sections[ $section->get_name() ] = $section;
 	}
 
 	/**
 	 * @return SettingField[]
 	 */
-	public function get_setting_fields(): array {
+	public function get_setting_fields() {
 		return $this->setting_fields;
 	}
 
 	/**
 	 * @param SettingField $setting_field
 	 */
-	public function add_setting_field( SettingField $setting_field ): void {
+	public function add_setting_field( SettingField $setting_field ) {
 		$this->setting_fields[ $setting_field->get_name() ] = $setting_field;
 	}
 
 	/**
 	 * @param string $plugin_basename
 	 */
-	public function add_settings_link( string $plugin_basename ) {
+	public function add_settings_link( $plugin_basename ) {
 		if ( ! empty( $plugin_basename ) ) {
 			add_filter( 'plugin_action_links_' . $plugin_basename, array( $this, 'plugin_action_links' ) );
 		}
@@ -125,7 +125,7 @@ abstract class SettingsSetup {
 	 *
 	 * @return array|string[]
 	 */
-	public function plugin_action_links( array $links ): array {
+	public function plugin_action_links( array $links ) {
 		$submenu_parent_slug = $this->get_submenu_parent_slug();
 		$menu_slug           = $this->get_menu_slug();
 
