@@ -32,35 +32,35 @@ class SettingField {
 	/**
 	 * @return string
 	 */
-	public function get_name(): string {
+	public function get_name() {
 		return $this->name;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function get_title(): string {
+	public function get_title() {
 		return $this->title;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function get_type(): string {
+	public function get_type() {
 		return $this->type;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function get_section(): string {
+	public function get_section() {
 		return $this->section;
 	}
 
 	/**
 	 * @return array
 	 */
-	public function get_args(): array {
+	public function get_args() {
 		return $this->args;
 	}
 
