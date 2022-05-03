@@ -13,7 +13,7 @@
   "require": {},
   "autoload": {
     "files": [
-      "WordpressCustomSettings/init.php"
+      "WordpressCustomSettings/bootstrap_2_0_1.php"
     ]
   }
 }
