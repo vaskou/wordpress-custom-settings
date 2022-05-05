@@ -133,7 +133,7 @@ abstract class SettingsSetup {
 			return $links;
 		}
 
-		$url = $submenu_parent_slug . '?page=' . $menu_slug;
+		$url = $this->_build_settings_page_url( $submenu_parent_slug, $menu_slug );
 
 		$plugin_links = array(
 			'<a href="' . admin_url( $url ) . '">' . esc_html__( 'Settings', 'wordpress-custom-settings' ) . '</a>',
@@ -416,5 +416,23 @@ abstract class SettingsSetup {
 		}
 
 		return is_array( $classes ) ? implode( ' ', $classes ) : $classes;
+	}
+
+	protected function _build_settings_page_url( $submenu_parent_slug, $menu_slug ) {
+		$parsed_query = array();
+
+		$parsed_url = parse_url( $submenu_parent_slug );
+
+		$path = ! empty( $parsed_url['path'] ) ? $parsed_url['path'] : '';
+
+		if ( ! empty( $parsed_url['query'] ) ) {
+			parse_str( $parsed_url['query'], $parsed_query );
+		}
+
+		$parsed_query['page'] = $menu_slug;
+
+		$query = http_build_query( $parsed_query );
+
+		return $path . '?' . $query;
 	}
 }
