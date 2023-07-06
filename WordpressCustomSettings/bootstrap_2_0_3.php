@@ -1,9 +1,9 @@
 <?php
-if ( ! class_exists( 'WordpressCustomSettings_Bootstrap_2_0_2' ) ) {
+if ( ! class_exists( 'WordpressCustomSettings_Bootstrap_2_0_3' ) ) {
 
-	class WordpressCustomSettings_Bootstrap_2_0_2 {
+	class WordpressCustomSettings_Bootstrap_2_0_3 {
 
-		const VERSION = '2.0.2';
+		const VERSION = '2.0.3';
 
 		private static $_instance;
 
@@ -45,5 +45,5 @@ if ( ! class_exists( 'WordpressCustomSettings_Bootstrap_2_0_2' ) ) {
 		}
 	}
 
-	WordpressCustomSettings_Bootstrap_2_0_2::instance();
+	WordpressCustomSettings_Bootstrap_2_0_3::instance();
 }

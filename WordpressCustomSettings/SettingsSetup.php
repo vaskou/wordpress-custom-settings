@@ -8,6 +8,7 @@ abstract class SettingsSetup {
 	protected $page_title;
 	protected $menu_title;
 	protected $menu_slug;
+	protected $capability = 'manage_options';
 
 	/**
 	 * @var SettingSection[]
@@ -84,6 +85,21 @@ abstract class SettingsSetup {
 	}
 
 	/**
+	 * @return string
+	 */
+	public function get_capability() {
+		return $this->capability;
+	}
+
+	/**
+	 * @param string $capability
+	 */
+	public function set_capability( $capability ) {
+		$this->capability = $capability;
+	}
+
+
+	/**
 	 * @return SettingSection[]
 	 */
 	public function get_sections() {
@@ -148,14 +164,14 @@ abstract class SettingsSetup {
 			$this->submenu_parent_slug,
 			$this->get_page_title(),
 			$this->get_menu_title(),
-			'manage_options',
+			$this->get_capability(),
 			$this->get_menu_slug(),
 			array( $this, 'add_menu_page_callback' )
 		);
 	}
 
 	public function add_menu_page_callback() {
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( ! current_user_can( $this->get_capability() ) ) {
 			return;
 		}
 
