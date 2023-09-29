@@ -223,7 +223,7 @@ abstract class SettingsSetup {
 		$settings = ! is_array( $this->setting_fields ) ? array( $this->setting_fields ) : $this->setting_fields;
 
 		foreach ( $settings as $setting ) {
-			register_setting( $this->get_menu_slug(), $setting->get_name() );
+			register_setting( $this->get_menu_slug(), $setting->get_name(), $setting->get_args() );
 		}
 	}
 
@@ -277,6 +277,8 @@ abstract class SettingsSetup {
 
 		$options = ! empty( $args['options'] ) ? $args['options'] : array();
 
+		$checkbox_label = ! empty( $args['checkbox_label'] ) ? $args['checkbox_label'] : '';
+
 		switch ( $type ) {
 
 			case 'text':
@@ -293,7 +295,7 @@ abstract class SettingsSetup {
                 <input type="<?php echo $type; ?>"
                        name="<?php echo $field_name; ?>"
                        value="<?php echo isset( $setting ) ? esc_attr( $setting ) : ''; ?>"
-                       class="<?php echo esc_attr( $classes ); ?>"
+                       class="regular-text <?php echo esc_attr( $classes ); ?>"
                        style="<?php echo $style; ?>">
 				<?php
 				break;
@@ -311,12 +313,21 @@ abstract class SettingsSetup {
 				);
 				break;
 			case 'checkbox':
+				if ( ! empty( $checkbox_label ) ):?>
+                    <label>
+				<?php
+				endif;
 				?>
                 <input type="<?php echo $type; ?>"
                        class="<?php echo esc_attr( $classes ); ?>"
                        name="<?php echo $field_name; ?>"
                        value="Y" <?php echo 'Y' == $setting ? 'checked' : ''; ?>>
 				<?php
+				if ( ! empty( $checkbox_label ) ):?>
+                    <span><?php echo $checkbox_label; ?></span>
+                    </label>
+				<?php
+				endif;
 				break;
 			case 'select':
 				echo $this->_get_select( $field_name, $setting, $options, $classes );
