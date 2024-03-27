@@ -346,7 +346,7 @@ abstract class SettingsSetup {
 		}
 
 		if ( ! empty( $args['description'] ) ) :?>
-            <p><?php echo $args['description']; ?></p>
+            <div class="description-<?php echo $field_name; ?>"><?php echo $args['description']; ?></div>
 		<?php
 		endif;
 	}
