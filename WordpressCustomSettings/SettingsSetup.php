@@ -344,6 +344,11 @@ abstract class SettingsSetup {
 				echo $this->_user_roles_field( $field_name, $setting );
 				break;
 		}
+
+		if ( ! empty( $args['description'] ) ) :?>
+            <p><?php echo $args['description']; ?></p>
+		<?php
+		endif;
 	}
 
 	public function get_setting( $setting_name, $default = false ) {
