@@ -2,7 +2,7 @@
   "name": "vaskou/wordpress-custom-settings",
   "description": "Wordpress Custom Settings",
   "type": "library",
-  "version": "v2.0.6",
+  "version": "v2.0.7",
   "license": "GPL-2.0-or-later",
   "authors": [
     {
@@ -13,7 +13,7 @@
   "require": {},
   "autoload": {
     "files": [
-      "WordpressCustomSettings/bootstrap_2_0_6.php"
+      "WordpressCustomSettings/bootstrap_2_0_7.php"
     ]
   }
 }
