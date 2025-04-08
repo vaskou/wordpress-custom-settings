@@ -279,6 +279,14 @@ abstract class SettingsSetup {
 
 		$checkbox_label = ! empty( $args['checkbox_label'] ) ? $args['checkbox_label'] : '';
 
+		$attributes = [];
+
+		if ( ! empty( $args['attributes'] ) && is_array( $args['attributes'] ) ) {
+			foreach ( $args['attributes'] as $attribute => $attribute_value ) {
+				$attributes[] = esc_attr( $attribute ) . '="' . esc_attr( $attribute_value ) . '"';
+			}
+		}
+
 		switch ( $type ) {
 
 			case 'text':
@@ -296,7 +304,8 @@ abstract class SettingsSetup {
                        name="<?php echo $field_name; ?>"
                        value="<?php echo isset( $setting ) ? esc_attr( $setting ) : ''; ?>"
                        class="regular-text <?php echo esc_attr( $classes ); ?>"
-                       style="<?php echo $style; ?>">
+                       style="<?php echo $style; ?>"
+					<?php echo implode( ' ', $attributes ); ?>>
 				<?php
 				break;
 
@@ -321,7 +330,8 @@ abstract class SettingsSetup {
                 <input type="<?php echo $type; ?>"
                        class="<?php echo esc_attr( $classes ); ?>"
                        name="<?php echo $field_name; ?>"
-                       value="Y" <?php echo 'Y' == $setting ? 'checked' : ''; ?>>
+                       value="Y" <?php echo 'Y' == $setting ? 'checked' : ''; ?>
+					<?php echo implode( ' ', $attributes ); ?>>
 				<?php
 				if ( ! empty( $checkbox_label ) ):?>
                     <span><?php echo $checkbox_label; ?></span>
